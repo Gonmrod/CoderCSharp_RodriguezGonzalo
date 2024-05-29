@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clase-09", "Clase-09.csproj", "{E03F0E96-4663-42D2-9AA2-167198E7268D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsAppADO", "..\WinFormsAppADO\WinFormsAppADO.csproj", "{A4990CF1-7969-4556-8EC2-3336A2C622A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsAppADO", "..\WinFormsAppADO\WinFormsAppADO.csproj", "{A4990CF1-7969-4556-8EC2-3336A2C622A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreEntrega2_RodriguezGonzalo", "..\PreEntrega2_RodriguezGonzalo\PreEntrega2_RodriguezGonzalo.csproj", "{342149E5-0676-4003-A5AE-B138B116AB6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A4990CF1-7969-4556-8EC2-3336A2C622A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4990CF1-7969-4556-8EC2-3336A2C622A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4990CF1-7969-4556-8EC2-3336A2C622A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{342149E5-0676-4003-A5AE-B138B116AB6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{342149E5-0676-4003-A5AE-B138B116AB6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{342149E5-0676-4003-A5AE-B138B116AB6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{342149E5-0676-4003-A5AE-B138B116AB6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
