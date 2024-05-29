@@ -91,17 +91,23 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
 
         public static void CrearVenta(Venta venta)
         {
-            var query = @"INSERT INTO Venta (Id, Comentarios, IdUsuario)
-                          VALUES (@Id, @Comentarios, @IdUsuario)";
+            var query = @"INSERT INTO Venta (Comentarios, IdUsuario)
+                          VALUES (@Comentarios, @IdUsuario)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                using (SqlCommand cmd = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    cmd.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = venta.Id });
-                    cmd.Parameters.Add(new SqlParameter("Comentarios", SqlDbType.VarChar) { Value = venta.Comentarios });
-                    cmd.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = venta.IdUsuario });
+                    command.Parameters.Add(new SqlParameter("@Comentarios", venta.Comentarios));
+                    command.Parameters.Add(new SqlParameter("@IdUsuario", venta.IdUsuario));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No se pudo crear la venta.");
+                    }
                 }
                 connection.Close();
             }
@@ -110,19 +116,25 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
         public static void ModificarVenta(Venta venta)
         {
             var query = @"UPDATE Venta
-						SET Id	       = @Id,
-							Comentario = @Comentario,
-							IdUsuario  = @IdUsuario
-						WHERE Id = @Id";
+                          SET Comentarios = @Comentarios,
+                              IdUsuario = @IdUsuario
+                          WHERE Id = @Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                using (SqlCommand command  = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = venta.Id });
-                    command.Parameters.Add(new SqlParameter("Comentarios", SqlDbType.VarChar) { Value = venta.Comentarios });
-                    command.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = venta.IdUsuario });
+                    command.Parameters.Add(new SqlParameter("@Id", venta.Id));
+                    command.Parameters.Add(new SqlParameter("@Comentarios", venta.Comentarios));
+                    command.Parameters.Add(new SqlParameter("@IdUsuario", venta.IdUsuario));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No se pudo modificar la venta.");
+                    }
                 }
                 connection.Close();
             }
@@ -137,7 +149,14 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = venta.Id });
+                    command.Parameters.Add(new SqlParameter("@Id", venta.Id));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No se pudo eliminar la venta.");
+                    }
                 }
                 connection.Close();
             }

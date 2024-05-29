@@ -95,18 +95,24 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
         }
         public static void CrearProductoVendido(ProductoVendido productoVendido)
         {
-            var query = @"INSERT INTO ProductoVendido (Id, Stock, IdProducto, IdVenta)
-                          VALUES (@Id, @Stock, @IdProducto, @IdVenta)";
+            var query = @"INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta)
+                          VALUES (@Stock, @IdProducto, @IdVenta)";
 
-            using (SqlConnection connection = new SqlConnection (connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand (query, connection))
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = productoVendido.Id });
-                    command.Parameters.Add(new SqlParameter("Stock", SqlDbType.Int) { Value = productoVendido.Stock });
-                    command.Parameters.Add(new SqlParameter("IdProducto", SqlDbType.Int) { Value = productoVendido.IdProducto });
-                    command.Parameters.Add(new SqlParameter("IdVenta", SqlDbType.Int) { Value = productoVendido.IdVenta });
+                    command.Parameters.Add(new SqlParameter("@Stock", productoVendido.Stock));
+                    command.Parameters.Add(new SqlParameter("@IdProducto", productoVendido.IdProducto));
+                    command.Parameters.Add(new SqlParameter("@IdVenta", productoVendido.IdVenta));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No se pudo crear el producto vendido.");
+                    }
                 }
                 connection.Close();
             }
@@ -115,27 +121,33 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
         public static void ModificarProductoVendido(ProductoVendido productoVendido)
         {
             var query = @"UPDATE ProductoVendido
-						SET Id	       = @Id,
-							Stock      = @Stock,
-							IdProducto = @IdProducto,
-							IdVenta    = @IdVenta
-						WHERE Id = @Id";
+                          SET Stock = @Stock,
+                              IdProducto = @IdProducto,
+                              IdVenta = @IdVenta
+                          WHERE Id = @Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = productoVendido.Id });
-                    command.Parameters.Add(new SqlParameter("Stock", SqlDbType.Int) { Value = productoVendido.Stock });
-                    command.Parameters.Add(new SqlParameter("IdProducto", SqlDbType.Int) { Value = productoVendido.IdProducto });
-                    command.Parameters.Add(new SqlParameter("IdVenta", SqlDbType.Int) { Value = productoVendido.IdVenta });
+                    command.Parameters.Add(new SqlParameter("@Id", productoVendido.Id));
+                    command.Parameters.Add(new SqlParameter("@Stock", productoVendido.Stock));
+                    command.Parameters.Add(new SqlParameter("@IdProducto", productoVendido.IdProducto));
+                    command.Parameters.Add(new SqlParameter("@IdVenta", productoVendido.IdVenta));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No se pudo modificar el producto vendido.");
+                    }
                 }
                 connection.Close();
             }
         }
 
-        public static void EliminarProducto(ProductoVendido productoVendido)
+        public static void EliminarProductoVendido(ProductoVendido productoVendido)
         {
             var query = "DELETE FROM ProductoVendido WHERE Id = @Id";
 
@@ -144,7 +156,14 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.Add(new SqlParameter ("Id", SqlDbType.Int) { Value = productoVendido.Id });
+                    command.Parameters.Add(new SqlParameter("@Id", productoVendido.Id));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No se pudo eliminar el producto vendido.");
+                    }
                 }
                 connection.Close();
             }

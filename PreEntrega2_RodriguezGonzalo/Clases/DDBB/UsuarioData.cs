@@ -95,54 +95,66 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
 			return listUsuarios;
         }
 
-		public static void CrearUsuario(Usuario usuario)
-		{
+        public static void CrearUsuario(Usuario usuario)
+        {
             string connectionString = @"Server=localhost\SQLEXPRESS; Database=SistemaGestion ; Trusted_Connection=True; User=sa; Password=Admin1234;";
-            var query = @"INSERT INTO Usuario (Id, Nombre, Apellido, NombreUsuario, Contraseña, Mail)
-						  VALUES (@Id, @Nombre, @Apellido, @NombreUsuario, @Contraseña, @Mail)";
+            var query = @"INSERT INTO Usuario (Nombre, Apellido, NombreUsuario, Contraseña, Mail)
+                          VALUES (@Nombre, @Apellido, @NombreUsuario, @Contraseña, @Mail)";
 
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				connection.Open();
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					command.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = usuario.Id });
-					command.Parameters.Add(new SqlParameter("Nombre", SqlDbType.VarChar) { Value = usuario.Nombre });
-					command.Parameters.Add(new SqlParameter("Apellido", SqlDbType.VarChar) { Value = usuario.Apellido });
-					command.Parameters.Add(new SqlParameter("NombreUsuario", SqlDbType.VarChar) { Value = usuario.NombreUsuario });
-					command.Parameters.Add(new SqlParameter("Contraseña", SqlDbType.VarChar) { Value = usuario.Contrasenia });
-					command.Parameters.Add(new SqlParameter("Mail", SqlDbType.VarChar) { Value = usuario.Mail });
-				}
-				connection.Close();
-			}
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@Nombre", usuario.Nombre));
+                    command.Parameters.Add(new SqlParameter("@Apellido", usuario.Apellido));
+                    command.Parameters.Add(new SqlParameter("@NombreUsuario", usuario.NombreUsuario));
+                    command.Parameters.Add(new SqlParameter("@Contraseña", usuario.Contrasenia));
+                    command.Parameters.Add(new SqlParameter("@Mail", usuario.Mail));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No se pudo crear el usuario.");
+                    }
+                }
+                connection.Close();
+            }
         }
 
-		public static void ModificarUsuario(Usuario usuario)
-		{
+        public static void ModificarUsuario(Usuario usuario)
+        {
             string connectionString = @"Server=localhost\SQLEXPRESS; Database=SistemaGestion ; Trusted_Connection=True; User=sa; Password=Admin1234;";
             var query = @"UPDATE Usuario
-						SET Id	          = @Id,
-							Nombre        = @Nombre,
-							Apellido      = @Apellido,
-							NombreUsuario = @NombreUsuario,
-							Contraseña    = @Contraseña,
-							Mail		  = @Mail
-						WHERE Id = @Id";
+                          SET Nombre = @Nombre,
+                              Apellido = @Apellido,
+                              NombreUsuario = @NombreUsuario,
+                              Contraseña = @Contraseña,
+                              Mail = @Mail
+                          WHERE Id = @Id";
 
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				connection.Open();
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-                    command.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = usuario.Id });
-                    command.Parameters.Add(new SqlParameter("Nombre", SqlDbType.VarChar) { Value = usuario.Nombre });
-                    command.Parameters.Add(new SqlParameter("Apellido", SqlDbType.VarChar) { Value = usuario.Apellido });
-                    command.Parameters.Add(new SqlParameter("NombreUsuario", SqlDbType.VarChar) { Value = usuario.NombreUsuario });
-                    command.Parameters.Add(new SqlParameter("Contraseña", SqlDbType.VarChar) { Value = usuario.Contrasenia });
-                    command.Parameters.Add(new SqlParameter("Mail", SqlDbType.VarChar) { Value = usuario.Mail });
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@Id", usuario.Id));
+                    command.Parameters.Add(new SqlParameter("@Nombre", usuario.Nombre));
+                    command.Parameters.Add(new SqlParameter("@Apellido", usuario.Apellido));
+                    command.Parameters.Add(new SqlParameter("@NombreUsuario", usuario.NombreUsuario));
+                    command.Parameters.Add(new SqlParameter("@Contraseña", usuario.Contrasenia));
+                    command.Parameters.Add(new SqlParameter("@Mail", usuario.Mail));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No se pudo modificar el usuario.");
+                    }
                 }
-				connection.Close();
-			}
+                connection.Close();
+            }
         }
 		
 		public static void EliminarUsuario(Usuario usuario)
@@ -152,14 +164,21 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
 
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				connection.Open();
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					command.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = usuario.Id });
-				}
-				connection.Close();
-			}
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@Id", usuario.Id));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No se pudo eliminar el usuario.");
+                    }
+                }
+                connection.Close();
+            }
         }
-	}
+    }
 
 }

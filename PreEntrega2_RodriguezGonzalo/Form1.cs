@@ -16,14 +16,95 @@ namespace PreEntrega2_RodriguezGonzalo
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
         }
 
+        private void comboBoxOperaciones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string operacion = comboBoxOperaciones.SelectedItem.ToString();
+            HideAllPanels();
+            textBoxParametros.ReadOnly = false;
+
+            switch (operacion)
+            {
+                case "Crear Usuario":
+                case "Modificar Usuario":
+                    panelUsuario.Visible = true;
+                    break;
+
+                case "Crear Producto":
+                case "Modificar Producto":
+                    panelProducto.Visible = true;
+                    break;
+
+                case "Crear Producto Vendido":
+                case "Modificar Producto Vendido":
+                    panelProductoVendido.Visible = true;
+                    break;
+
+                case "Crear Venta":
+                case "Modificar Venta":
+                    panelVenta.Visible = true;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void HideAllPanels()
+        {
+            panelUsuario.Visible = false;
+            panelProducto.Visible = false;
+            panelProductoVendido.Visible = false;
+            panelVenta.Visible = false;
+        }
+
+        private void dataGridViewResultados_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewResultados.SelectedRows.Count > 0)
+            {
+                var selectedRow = dataGridViewResultados.SelectedRows[0];
+                textBoxParametros.Text = selectedRow.Cells["Id"].Value.ToString();
+                textBoxParametros.ReadOnly = true;
+
+                switch (comboBoxOperaciones.SelectedItem.ToString())
+                {
+                    case "Modificar Usuario":
+                        textBoxNombre.Text = selectedRow.Cells["Nombre"].Value.ToString();
+                        textBoxApellido.Text = selectedRow.Cells["Apellido"].Value.ToString();
+                        textBoxNombreUsuario.Text = selectedRow.Cells["NombreUsuario"].Value.ToString();
+                        textBoxContrasenia.Text = selectedRow.Cells["Contraseña"].Value.ToString();
+                        textBoxMail.Text = selectedRow.Cells["Mail"].Value.ToString();
+                        break;
+
+                    case "Modificar Producto":
+                        textBoxDescripcion.Text = selectedRow.Cells["Descripciones"].Value.ToString();
+                        textBoxCosto.Text = selectedRow.Cells["Costo"].Value.ToString();
+                        textBoxPrecioVenta.Text = selectedRow.Cells["PrecioVenta"].Value.ToString();
+                        textBoxStock.Text = selectedRow.Cells["Stock"].Value.ToString();
+                        textBoxIdUsuario.Text = selectedRow.Cells["IdUsuario"].Value.ToString();
+                        break;
+
+                    case "Modificar Producto Vendido":
+                        textBoxIdProducto.Text = selectedRow.Cells["IdProducto"].Value.ToString();
+                        textBoxStockVendido.Text = selectedRow.Cells["Stock"].Value.ToString();
+                        textBoxIdVenta.Text = selectedRow.Cells["IdVenta"].Value.ToString();
+                        break;
+
+                    case "Modificar Venta":
+                        textBoxComentarios.Text = selectedRow.Cells["Comentarios"].Value.ToString();
+                        textBoxIdUsuarioVenta.Text = selectedRow.Cells["IdUsuario"].Value.ToString();
+                        break;
+                }
+            }
+        }
+
         private void buttonEjecutar_Click(object sender, EventArgs e)
         {
             try
             {
                 string operacion = comboBoxOperaciones.SelectedItem.ToString();
-                int id;
+                int id = 0;
 
-                if (!int.TryParse(textBoxParametros.Text, out id) && operacion != "Listar Usuarios" && operacion != "Listar Productos" && operacion != "Listar Productos Vendidos" && operacion != "Listar Ventas")
+                if (!int.TryParse(textBoxParametros.Text, out id) && (operacion.Contains("Obtener") || operacion.Contains("Eliminar") || operacion.Contains("Modificar")))
                 {
                     MessageBox.Show("Por favor, ingrese un ID válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -44,12 +125,11 @@ namespace PreEntrega2_RodriguezGonzalo
                     case "Crear Usuario":
                         Usuario nuevoUsuario = new Usuario
                         {
-                            Id = id,
-                            Nombre = "Nuevo Usuario",
-                            Apellido = "Apellido",
-                            NombreUsuario = "NuevoUsuario",
-                            Contrasenia = "Contraseña",
-                            Mail = "mail@example.com"
+                            Nombre = textBoxNombre.Text,
+                            Apellido = textBoxApellido.Text,
+                            NombreUsuario = textBoxNombreUsuario.Text,
+                            Contrasenia = textBoxContrasenia.Text,
+                            Mail = textBoxMail.Text
                         };
                         UsuarioData.CrearUsuario(nuevoUsuario);
                         MessageBox.Show("Usuario creado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -59,11 +139,11 @@ namespace PreEntrega2_RodriguezGonzalo
                         Usuario usuarioModificado = new Usuario
                         {
                             Id = id,
-                            Nombre = "Usuario Modificado",
-                            Apellido = "Apellido Modificado",
-                            NombreUsuario = "UsuarioModificado",
-                            Contrasenia = "NuevaContraseña",
-                            Mail = "nuevo@example.com"
+                            Nombre = textBoxNombre.Text,
+                            Apellido = textBoxApellido.Text,
+                            NombreUsuario = textBoxNombreUsuario.Text,
+                            Contrasenia = textBoxContrasenia.Text,
+                            Mail = textBoxMail.Text
                         };
                         UsuarioData.ModificarUsuario(usuarioModificado);
                         MessageBox.Show("Usuario modificado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -88,12 +168,11 @@ namespace PreEntrega2_RodriguezGonzalo
                     case "Crear Producto":
                         Producto nuevoProducto = new Producto
                         {
-                            Id = id,
-                            Descripcion = "Nuevo Producto",
-                            Costo = 100,
-                            PrecioVenta = 150,
-                            Stock = 50,
-                            IdUsuario = 1
+                            Descripcion = textBoxDescripcion.Text,
+                            Costo = Convert.ToDouble(textBoxCosto.Text),
+                            PrecioVenta = Convert.ToDouble(textBoxPrecioVenta.Text),
+                            Stock = Convert.ToInt32(textBoxStock.Text),
+                            IdUsuario = Convert.ToInt32(textBoxIdUsuario.Text)
                         };
                         ProductoData.CrearProducto(nuevoProducto);
                         MessageBox.Show("Producto creado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -103,11 +182,11 @@ namespace PreEntrega2_RodriguezGonzalo
                         Producto productoModificado = new Producto
                         {
                             Id = id,
-                            Descripcion = "Producto Modificado",
-                            Costo = 120,
-                            PrecioVenta = 170,
-                            Stock = 40,
-                            IdUsuario = 1
+                            Descripcion = textBoxDescripcion.Text,
+                            Costo = Convert.ToDouble(textBoxCosto.Text),
+                            PrecioVenta = Convert.ToDouble(textBoxPrecioVenta.Text),
+                            Stock = Convert.ToInt32(textBoxStock.Text),
+                            IdUsuario = Convert.ToInt32(textBoxIdUsuario.Text)
                         };
                         ProductoData.ModificarProducto(productoModificado);
                         MessageBox.Show("Producto modificado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -132,10 +211,9 @@ namespace PreEntrega2_RodriguezGonzalo
                     case "Crear Producto Vendido":
                         ProductoVendido nuevoProductoVendido = new ProductoVendido
                         {
-                            Id = id,
-                            Stock = 10,
-                            IdProducto = 1,
-                            IdVenta = 1
+                            IdProducto = Convert.ToInt32(textBoxIdProducto.Text),
+                            Stock = Convert.ToInt32(textBoxStockVendido.Text),
+                            IdVenta = Convert.ToInt32(textBoxIdVenta.Text)
                         };
                         ProductoVendidoData.CrearProductoVendido(nuevoProductoVendido);
                         MessageBox.Show("Producto vendido creado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -145,9 +223,9 @@ namespace PreEntrega2_RodriguezGonzalo
                         ProductoVendido productoVendidoModificado = new ProductoVendido
                         {
                             Id = id,
-                            Stock = 15,
-                            IdProducto = 1,
-                            IdVenta = 1
+                            IdProducto = Convert.ToInt32(textBoxIdProducto.Text),
+                            Stock = Convert.ToInt32(textBoxStockVendido.Text),
+                            IdVenta = Convert.ToInt32(textBoxIdVenta.Text)
                         };
                         ProductoVendidoData.ModificarProductoVendido(productoVendidoModificado);
                         MessageBox.Show("Producto vendido modificado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -155,7 +233,7 @@ namespace PreEntrega2_RodriguezGonzalo
 
                     case "Eliminar Producto Vendido":
                         ProductoVendido productoVendidoEliminar = new ProductoVendido { Id = id };
-                        ProductoVendidoData.EliminarProducto(productoVendidoEliminar);
+                        ProductoVendidoData.EliminarProductoVendido(productoVendidoEliminar);
                         MessageBox.Show("Producto vendido eliminado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
 
@@ -172,9 +250,8 @@ namespace PreEntrega2_RodriguezGonzalo
                     case "Crear Venta":
                         Venta nuevaVenta = new Venta
                         {
-                            Id = id,
-                            Comentarios = "Nueva Venta",
-                            IdUsuario = 1
+                            Comentarios = textBoxComentarios.Text,
+                            IdUsuario = Convert.ToInt32(textBoxIdUsuarioVenta.Text)
                         };
                         VentaData.CrearVenta(nuevaVenta);
                         MessageBox.Show("Venta creada.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -184,8 +261,8 @@ namespace PreEntrega2_RodriguezGonzalo
                         Venta ventaModificada = new Venta
                         {
                             Id = id,
-                            Comentarios = "Venta Modificada",
-                            IdUsuario = 1
+                            Comentarios = textBoxComentarios.Text,
+                            IdUsuario = Convert.ToInt32(textBoxIdUsuarioVenta.Text)
                         };
                         VentaData.ModificarVenta(ventaModificada);
                         MessageBox.Show("Venta modificada.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
