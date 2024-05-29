@@ -33,12 +33,7 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    var parameter = new SqlParameter();
-                    parameter.ParameterName = "Id";
-                    parameter.SqlDbType = SqlDbType.Int;
-                    parameter.Value = idProductoVendido;
-
-                    command.Parameters.Add(parameter);
+                    command.Parameters.Add(new SqlParameter("idProductoVendido", SqlDbType.Int) { Value = idProductoVendido });
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -46,11 +41,13 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                         {
                             while (reader.Read())
                             {
-                                var productoVendido = new ProductoVendido();
-                                productoVendido.Id = reader.GetInt32("Id");
-                                productoVendido.Stock = reader.GetInt32("Stock");
-                                productoVendido.IdProducto = reader.GetInt32("IdProducto");
-                                productoVendido.IdVenta = reader.GetInt32("IdVenta");
+                                var productoVendido = new ProductoVendido
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    IdProducto = Convert.ToInt32(reader["IdProducto"]),
+                                    Stock = Convert.ToInt32(reader["Stock"]),
+                                    IdVenta = Convert.ToInt32(reader["IdVenta"])
+                                };
                                 listProductoVendido.Add(productoVendido);
                             }
                         }
@@ -81,11 +78,13 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                         {
                             while (reader.Read())
                             {
-                                var productoVendido = new ProductoVendido();
-                                productoVendido.Id = reader.GetInt32("Id");
-                                productoVendido.Stock = reader.GetInt32("Stock");
-                                productoVendido.IdProducto = reader.GetInt32("IdProducto");
-                                productoVendido.IdVenta = reader.GetInt32("IdVenta");
+                                var productoVendido = new ProductoVendido
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Stock = Convert.ToInt32(reader["Stock"]),
+                                    IdProducto = Convert.ToInt32(reader["IdProducto"]),
+                                    IdVenta = Convert.ToInt32(reader["IdVenta"])
+                                };
                                 listProductosVendidos.Add(productoVendido);
                             }
                         }

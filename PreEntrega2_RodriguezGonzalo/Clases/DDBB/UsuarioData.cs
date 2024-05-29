@@ -11,57 +11,51 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
 {
 	public class UsuarioData
 	{
-		public static List<Usuario> ObtenerUsuario(int idUsuario)
-		{
-			List<Usuario> listUsuario = new List<Usuario>();
+        public static List<Usuario> ObtenerUsuario(int idUsuario)
+        {
+            List<Usuario> listUsuario = new List<Usuario>();
             string connectionString = @"Server=localhost\SQLEXPRESS; Database=SistemaGestion ; Trusted_Connection=True; User=sa; Password=Admin1234;";
             var query = @"SELECT
-							Id,
-							Nombre,
-							Apellido,
-							NombreUsuario,
-							Contraseña,
-							Mail
-						  FROM Usuario WHERE Id = @idUsuario;";
+                            Id,
+                            Nombre,
+                            Apellido,
+                            NombreUsuario,
+                            Contraseña,
+                            Mail
+                          FROM Usuario WHERE Id = @idUsuario;";
 
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				connection.Open();
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					var parameter = new SqlParameter();
-					parameter.ParameterName = "Id";
-					parameter.SqlDbType = SqlDbType.Int;
-					parameter.Value = idUsuario;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int) { Value = idUsuario });
 
-					command.Parameters.Add(parameter);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                var usuario = new Usuario
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Nombre = reader["Nombre"].ToString(),
+                                    Apellido = reader["Apellido"].ToString(),
+                                    NombreUsuario = reader["NombreUsuario"].ToString(),
+                                    Contrasenia = reader["Contraseña"].ToString(),
+                                    Mail = reader["Mail"].ToString()
+                                };
+                                listUsuario.Add(usuario);
+                            }
+                        }
+                    }
+                }
+            }
+            return listUsuario;
+        }
 
-					using (SqlDataReader reader = command.ExecuteReader())
-					{
-						if (reader.HasRows)
-						{
-							while (reader.Read())
-							{
-								var usuario = new Usuario();
-								usuario.Id = Convert.ToInt32(reader["Id"]);
-								usuario.Nombre = reader["Nombre"].ToString();
-								usuario.Apellido = reader["Apellido"].ToString();
-								usuario.NombreUsuario = reader["NombreUsuario"].ToString();
-								usuario.Contrasenia = reader["Contraseña"].ToString();
-								usuario.Mail = reader["Mail"].ToString();
-								listUsuario.Add(usuario);
-							}
-						}
-					}
-
-				}
-
-
-			}
-			return listUsuario;
-		}
-
-		public static List<Usuario> ListarUsuarios()
+        public static List<Usuario> ListarUsuarios()
 		{
 			List<Usuario> listUsuarios = new List<Usuario>();
             string connectionString = @"Server=localhost\SQLEXPRESS; Database=SistemaGestion ; Trusted_Connection=True; User=sa; Password=Admin1234;";

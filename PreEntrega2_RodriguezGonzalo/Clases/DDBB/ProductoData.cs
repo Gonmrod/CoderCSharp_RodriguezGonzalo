@@ -34,12 +34,7 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    var parameter = new SqlParameter();
-                    parameter.ParameterName = "Id";
-                    parameter.SqlDbType = SqlDbType.Int;
-                    parameter.Value = idProducto;
-
-                    command.Parameters.Add(parameter);
+                    command.Parameters.Add(new SqlParameter("idProducto", SqlDbType.Int) { Value = idProducto});
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -47,13 +42,15 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                         {
                             while (reader.Read())
                             {
-                                var producto = new Producto();
-                                producto.Id = reader.GetInt32("Id");
-                                producto.Descripcion = reader.GetString("Description");
-                                producto.Costo = reader.GetDouble("Costo");
-                                producto.PrecioVenta = reader.GetDouble("PrecioVenta");
-                                producto.Stock = reader.GetInt32("Stock");
-                                producto.IdUsuario = reader.GetInt32("IdUsuario");
+                                var producto = new Producto
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Descripcion = reader["Descripciones"].ToString(),
+                                    Costo = Convert.ToDouble(reader["Costo"]),
+                                    PrecioVenta = Convert.ToDouble(reader["PrecioVenta"]),
+                                    Stock = Convert.ToInt32(reader["Stock"]),
+                                    IdUsuario = Convert.ToInt32(reader["IdUsuario"])
+                                };
                                 listProductos.Add(producto);
                             }
                         }
@@ -86,13 +83,15 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                         {
                             while (reader.Read())
                             {
-                                var producto = new Producto();
-                                producto.Id = reader.GetInt32("Id");
-                                producto.Descripcion = reader.GetString("Description");
-                                producto.Costo = reader.GetDouble("Costo");
-                                producto.PrecioVenta = reader.GetDouble("PrecioVenta");
-                                producto.Stock = reader.GetInt32("Stock");
-                                producto.IdUsuario = reader.GetInt32("IdUsuario");
+                                var producto = new Producto
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Descripcion = reader["Descripciones"].ToString(),
+                                    Costo = Convert.ToDouble(reader["Costo"]),
+                                    PrecioVenta = Convert.ToDouble(reader["PrecioVenta"]),
+                                    Stock = Convert.ToInt32(reader["Stock"]),
+                                    IdUsuario = Convert.ToInt32(reader["IdUsuario"])
+                                };
                                 listProductos.Add(producto);
                             }
                         }

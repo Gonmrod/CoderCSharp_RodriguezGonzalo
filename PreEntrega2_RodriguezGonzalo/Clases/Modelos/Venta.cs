@@ -28,7 +28,7 @@ namespace Clases.Modelos
         #region Propiedades
         public int Id { get; set; }
         public string Comentarios { get { return _comentarios; } set { _comentarios = value; } }
-        public int idUsuario { get; set; }
+        public int IdUsuario { get; set; }
         #endregion
 
     }

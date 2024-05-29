@@ -31,12 +31,7 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    var parameter = new SqlParameter();
-                    parameter.ParameterName = "Id";
-                    parameter.SqlDbType = SqlDbType.Int;
-                    parameter.Value = idVenta;
-
-                    command.Parameters.Add(parameter);
+                    command.Parameters.Add(new SqlParameter("idVenta", SqlDbType.Int) { Value = idVenta });
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -44,10 +39,12 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                         {
                             while (reader.Read())
                             {
-                                var venta = new Venta();
-                                venta.Id = reader.GetInt32(0);
-                                venta.Comentarios = reader.GetString(1);
-                                venta.idUsuario = reader.GetInt32(2);
+                                var venta = new Venta
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Comentarios = reader["Comentarios"].ToString(),
+                                    IdUsuario = Convert.ToInt32(reader["IdUsuario"])
+                                };
                                 listVenta.Add(venta);
                             }
                         }
@@ -77,10 +74,12 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                         {
                             while(reader.Read())
                             {
-                                var venta = new Venta();
-                                venta.Id = reader.GetInt32(0);
-                                venta.Comentarios = reader.GetString(1);
-                                venta.idUsuario = reader.GetInt32(2);
+                                var venta = new Venta
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Comentarios = reader["Comentarios"].ToString(),
+                                    IdUsuario = Convert.ToInt32(reader["IdUsuario"])
+                                };
                                 listVentas.Add(venta);
                             }
                         }
@@ -102,7 +101,7 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                 {
                     cmd.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = venta.Id });
                     cmd.Parameters.Add(new SqlParameter("Comentarios", SqlDbType.VarChar) { Value = venta.Comentarios });
-                    cmd.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = venta.idUsuario });
+                    cmd.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = venta.IdUsuario });
                 }
                 connection.Close();
             }
@@ -123,7 +122,7 @@ namespace PreEntrega2_RodriguezGonzalo.Clases.DDBB
                 {
                     command.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = venta.Id });
                     command.Parameters.Add(new SqlParameter("Comentarios", SqlDbType.VarChar) { Value = venta.Comentarios });
-                    command.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = venta.idUsuario });
+                    command.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = venta.IdUsuario });
                 }
                 connection.Close();
             }
