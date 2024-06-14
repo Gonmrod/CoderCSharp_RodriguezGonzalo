@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaGestion", "SistemaGestion.csproj", "{293B3DB7-EC79-4882-9831-2E4E53D2AA83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaGestion", "SistemaGestion.csproj", "{293B3DB7-EC79-4882-9831-2E4E53D2AA83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaGestionData", "..\SistemaGestionData\SistemaGestionData.csproj", "{2984FFA1-E375-4649-A2EF-66EE9BA72E8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaGestionData", "..\SistemaGestionData\SistemaGestionData.csproj", "{2984FFA1-E375-4649-A2EF-66EE9BA72E8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaGestionEntities", "..\SistemaGestionEntities\SistemaGestionEntities.csproj", "{5697691C-5A8D-40C1-B834-009DEA3DFBD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaGestionEntities", "..\SistemaGestionEntities\SistemaGestionEntities.csproj", "{5697691C-5A8D-40C1-B834-009DEA3DFBD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaGestionBussiness", "..\SistemaGestionBussiness\SistemaGestionBussiness.csproj", "{2DCCB3D3-B2F4-4562-9709-8D8256516EA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaGestionBussiness", "..\SistemaGestionBussiness\SistemaGestionBussiness.csproj", "{2DCCB3D3-B2F4-4562-9709-8D8256516EA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIConsumerSistemaGestion", "..\APIConsumerSistemaGestion\APIConsumerSistemaGestion.csproj", "{B22F564A-6076-4060-BE05-140F213F11CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{2DCCB3D3-B2F4-4562-9709-8D8256516EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DCCB3D3-B2F4-4562-9709-8D8256516EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DCCB3D3-B2F4-4562-9709-8D8256516EA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B22F564A-6076-4060-BE05-140F213F11CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B22F564A-6076-4060-BE05-140F213F11CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B22F564A-6076-4060-BE05-140F213F11CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B22F564A-6076-4060-BE05-140F213F11CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
